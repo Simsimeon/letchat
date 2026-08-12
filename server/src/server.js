@@ -1,12 +1,12 @@
 require("dotenv").config()
 const express = require("express");
 const app = express()
-const connectDB = require("./db/db");
-const cors = require("cors")  
+const connectDB = require("../src/db/db");
+const cors = require("cors");  
 const {
     notFoundPageError,
     errorHandlerMiddleware
-} = require("./middleware");
+} = require("../src/middleware");
 const fs = require("node:fs");
 const path = require("node:path");
 const {clerkMiddleware} = require("@clerk/express");
