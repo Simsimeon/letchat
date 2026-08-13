@@ -2,6 +2,7 @@ require("dotenv").config()
 const express = require("express");
 const app = express()
 const connectDB = require("./lib/db");
+const job = require("./lib/cron")
 const cors = require("cors");  
 const fs = require("node:fs");
 const path = require("node:path");
@@ -31,7 +32,7 @@ const start = async()=>{
          await connectDB(process.env.MONGO_URI)
          app.listen(PORT,()=>{
         console.log(`Listening on ${PORT}`);
-            
+        if(process.env.NODE_ENV === "production")job.start() 
          })
      }catch(err){
         console.log(`error listening at {PORT}`);
