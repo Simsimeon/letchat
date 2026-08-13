@@ -1,7 +1,7 @@
 require("dotenv").config()
 const express = require("express");
 const app = express()
-const connectDB = require("../src/db/db");
+const connectDB = require("./lib/db");
 const cors = require("cors");  
 const {
     notFoundPageError,
