@@ -16,7 +16,7 @@ const publicDir = path.join(process.cwd(),"public");
 app.use(express.json())
 app.use(cors({origin:Frontal_End, credentials:true}))
 app.use(clerkMiddleware())
-app.get('/',(req,res)=>{
+app.get('/heath',(req,res)=>{
 res.send("Hello from the server");
 })
 
