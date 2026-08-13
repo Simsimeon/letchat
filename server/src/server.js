@@ -24,7 +24,7 @@ res.send("Hello from the server");
 if (fs.existsSync(publicDir)) {
   app.use(express.static(publicDir));
   
-  app.get("*", (req, res, next) => {
+  app.get("/{*any}", (req, res, next) => {
     res.sendFile(path.join(publicDir, "index.html"), (err) => next(err));
   });
 }
