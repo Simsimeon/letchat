@@ -25,7 +25,7 @@ if (fs.existsSync(publicDir)) {
   });
 }
 
-app.use(errorHandlerMiddleware);
+
 const start = async()=>{
      try{
          await connectDB(process.env.MONGO_URI)
