@@ -3,10 +3,6 @@ const express = require("express");
 const app = express()
 const connectDB = require("./lib/db");
 const cors = require("cors");  
-const {
-    notFoundPageError,
-    errorHandlerMiddleware
-} = require("../src/middleware/index");
 const fs = require("node:fs");
 const path = require("node:path");
 const {clerkMiddleware} = require("@clerk/express");
@@ -28,7 +24,7 @@ if (fs.existsSync(publicDir)) {
     res.sendFile(path.join(publicDir, "index.html"), (err) => next(err));
   });
 }
-app.use(notFoundPageError);
+
 app.use(errorHandlerMiddleware);
 const start = async()=>{
      try{
