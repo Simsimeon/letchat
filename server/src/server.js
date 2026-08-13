@@ -20,16 +20,16 @@ app.get('/heath',(req,res)=>{
 res.send("Hello from the server");
 })
 
-app.use(notFoundPageError);
-app.use(errorHandlerMiddleware);
 
 if (fs.existsSync(publicDir)) {
   app.use(express.static(publicDir));
-
+  
   app.get("*", (req, res, next) => {
     res.sendFile(path.join(publicDir, "index.html"), (err) => next(err));
   });
 }
+app.use(notFoundPageError);
+app.use(errorHandlerMiddleware);
 const start = async()=>{
      try{
          await connectDB(process.env.MONGO_URI)
