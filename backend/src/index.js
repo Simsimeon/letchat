@@ -6,7 +6,7 @@ const cors = require("cors");
 const {
     notFoundPageError,
     errorHandlerMiddleware
-} = require("../src/middleware");
+} = require("../src/middleware/index");
 const fs = require("node:fs");
 const path = require("node:path");
 const {clerkMiddleware} = require("@clerk/express");
