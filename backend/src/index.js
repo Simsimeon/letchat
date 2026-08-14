@@ -8,8 +8,12 @@ const fs = require("node:fs");
 const path = require("node:path");
 const {clerkMiddleware} = require("@clerk/express");
 const Frontal_End = process.env.FRONT_END_URL  
+const clerkWebHook = require("./webhook/clerk.webhook")
 const PORT = process.env.PORT || 3000;
 const publicDir = path.join(process.cwd(),"public");
+app.use("/api/webhook/clerk",express.raw({type:"application/json"}),clerkWebHook)
+
+
 app.use(express.json())
 app.use(cors({origin:Frontal_End, credentials:true}))
 app.use(clerkMiddleware())
