@@ -14,6 +14,7 @@
   "type": "commonjs",
   "dependencies": {
     "@clerk/express": "^2.1.55",
+    "@imagekit/nodejs": "^7.11.0",
     "bcrypt": "^6.0.0",
     "cors": "^2.8.6",
     "cron": "^4.4.0",
@@ -24,6 +25,7 @@
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.9.2",
     "morgan": "^1.11.0",
+    "multer": "^2.2.0",
     "xss-sanitize": "^1.1.1"
   },
   "devDependencies": {
