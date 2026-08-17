@@ -1,6 +1,5 @@
 require("dotenv").config()
 const express = require("express");
-const app = express()
 const connectDB = require("./lib/db");
 const job = require("./lib/cron");
 
@@ -9,7 +8,8 @@ const fs = require("node:fs");
 const path = require("node:path");
 const {clerkMiddleware} = require("@clerk/express");
 const Frontal_End = process.env.FRONT_END_URL  
-const clerkWebHook = require("./webhook/clerk.webhook")
+const clerkWebHook = require("./webhook/clerk.webhook");
+const {app, server}=require("./lib/socket");
 const PORT = process.env.PORT || 3000;
 const publicDir = path.join(process.cwd(),"public");
 
@@ -44,7 +44,7 @@ if (fs.existsSync(publicDir)) {
 const start = async()=>{
      try{
          await connectDB(process.env.MONGO_URI)
-         app.listen(PORT,()=>{
+         server.listen(PORT,()=>{
         console.log(`Listening on ${PORT}`);
         if(process.env.NODE_ENV === "production")job.start() 
          })

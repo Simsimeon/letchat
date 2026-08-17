@@ -1,7 +1,8 @@
 const { StatusCodes, REQUEST_HEADER_FIELDS_TOO_LARGE } = require("http-status-codes");
 const User = require("../model/User");
 const Message = require("../model/Message");
-const {uploadChatMedia,hasImageKitConfig} =require("../lib/imagekit")
+const {uploadChatMedia,hasImageKitConfig} =require("../lib/imagekit");
+const { getReceiverSocketId } = require("../lib/socket");
 
 async function getUsersForSidebar(req,res){
    try{
@@ -84,7 +85,13 @@ async function sendMessage(req,res){
         image:imageUrl,
         video:videoUrl
     })
-    await newMessage.save()
+    await newMessage.save();
+
+    const receiverSocketId = getReceiverSocketId(receiverId);
+
+    if(receiverSocketId){
+        io.to(receiverSocketId).emit("newMessage",newMessage)
+    } 
     res.status(StatusCodes.CREATED).json({newMessage})
    }catch(error){
       console.Error("Error in getting conversion for side bar",error.message);
