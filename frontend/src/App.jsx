@@ -10,13 +10,13 @@ import { useAuthStore } from './store/useAuthStore';
 import { useEffect } from 'react';
 import {Toaster} from "react-hot-toast";
 function App() {
-  const { isLoaded,isSignedIn}= useAuth()
+  const { isLoaded,isSignedIn,getToken}= useAuth()
    const {clearAuth,isCheckingAuth,checkAuth}=  useAuthStore();
    useEffect(()=>{
     if(!isLoaded) return
-    if(isSignedIn)checkAuth();
+    if(isSignedIn)checkAuth(getToken);
     else clearAuth();
-   })
+     },[isLoaded,isSignedIn,getToken,checkAuth,clearAuth])
   if(!isLoaded || (isSignedIn && isCheckingAuth)) return <PageLoader/>
   return (
     <ThemeProvider>
