@@ -6,8 +6,6 @@ const router = express.Router();
 const { StatusCodes } = require("http-status-codes");
 
 
-const router = express.Router();
-
 router.post("/", async (req, res) => {
   try {
     const signingSecret = process.env.CLERK_WEBHOOK_SIGNING_SECRET;
@@ -55,7 +53,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-export default router;
+module.exports= router;
 
 
 
