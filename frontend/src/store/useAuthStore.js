@@ -19,7 +19,7 @@ export const useAuthStore = create((set,get)=>({
            Authorization: `Bearer ${token}`,
          },
        });
-       console.log(res);
+      
        
          set({authUser:res.data})
          get().connectSocket(res.data)
