@@ -2,7 +2,6 @@ const ImageKit = require("@imagekit/nodejs");
 const {toFile}=require("@imagekit/nodejs");
 
 
-const imageKit = new ImageKit({privateKey:process.env.IMAGEKIT_PRIVATE_KEY})
 function hasImageKitConfig(){
     return Boolean(process.env.IMAGEKIT_PRIVATE_KEY)
 }
@@ -15,10 +14,15 @@ function createFileName(originalName = "upload") {
   return `chat-${Date.now()}-${safeName}`;
 }
 async function uploadChatMedia(file){
+  if (!hasImageKitConfig()) {
+    throw new Error("ImageKit is not configured");
+  }
+
+  const imageKit = new ImageKit({privateKey: process.env.IMAGEKIT_PRIVATE_KEY});
     const filename = createFileName(file.originalname);
   const result = await imageKit.files.upload({
     file: await toFile(file.buffer,filename,{type: file.mimetype}),
-    filename,
+    fileName: filename,
     folder:"/chat",
   })
  

@@ -71,7 +71,7 @@ async function sendMessage(req,res){
     let videoUrl;
 
     if(req.file){
-            if (!hasImageKitConfig) {
+            if (!hasImageKitConfig()) {
                 return res
                     .status(StatusCodes.INTERNAL_SERVER_ERROR)
                     .json({message: "Media upload is not configured"});
@@ -97,7 +97,9 @@ async function sendMessage(req,res){
     res.status(StatusCodes.CREATED).json({newMessage})
    }catch(error){
     console.error("Error in sending message",error.message);
-      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({message:"Internal server error"}) 
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+                message: process.env.NODE_ENV === "development" ? error.message : "Internal server error",
+            });
    }
     
 }

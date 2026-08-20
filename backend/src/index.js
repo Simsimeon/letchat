@@ -7,7 +7,12 @@ const cors = require("cors");
 const fs = require("node:fs");
 const path = require("node:path");
 const {clerkMiddleware} = require("@clerk/express");
-const Frontal_End = process.env.FRONT_END_URL  
+const configuredFrontendOrigin = process.env.FRONT_END_URL?.trim();
+const allowedFrontendOrigins = [
+  configuredFrontendOrigin,
+  "http://localhost:5173",
+  "http://localhost:5174",
+].filter(Boolean);
 const clerkWebHook = require("./webhook/clerk.webhook");
 const {app, server}=require("./lib/socket");
 const PORT = process.env.PORT || 3000;
@@ -24,7 +29,13 @@ app.use("/api/webhook/clerk",express.raw({type:"application/json"}),clerkWebHook
 
 
 app.use(express.json())
-app.use(cors({origin:Frontal_End, credentials:true}))
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || allowedFrontendOrigins.includes(origin)) return callback(null, true);
+    return callback(new Error("Origin is not allowed by CORS"));
+  },
+  credentials: true,
+}))
 app.use(clerkMiddleware())
 app.get('/heath',(req,res)=>{
 res.send("Hello from the server");
