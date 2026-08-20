@@ -4,9 +4,7 @@ const { StatusCodes } = require("http-status-codes")
     if(!req.user){
      return res.status(StatusCodes.UNAUTHORIZED).json({message:"Unauthorized"})
     }
-    const { clerkId}= req.user
-    
-    res.status(StatusCodes.OK).json(clerkId)
+    res.status(StatusCodes.OK).json(req.user)
 }
 
 
