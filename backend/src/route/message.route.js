@@ -14,7 +14,7 @@ router.use(protectedRoute)
 router.get("/users",getUsersForSidebar);
 router.get("/conversation",getConversationsForSidebar)
 router.get("/:id",getSingleUserMessage);
-router.get("/send/:id",upload.single("media"),sendMessage);
+router.post("/send/:id",upload.single("media"),sendMessage);
 
  
 
