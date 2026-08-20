@@ -2,7 +2,7 @@ const { StatusCodes, REQUEST_HEADER_FIELDS_TOO_LARGE } = require("http-status-co
 const User = require("../model/User");
 const Message = require("../model/Message");
 const {uploadChatMedia,hasImageKitConfig} =require("../lib/imagekit");
-const { getReceiverSocketId } = require("../lib/socket");
+const { getReceiverSocketId, io } = require("../lib/socket");
 
 async function getUsersForSidebar(req,res){
    try{
@@ -34,7 +34,7 @@ async function getConversationsForSidebar(req,res){
    ]);
    res.status(StatusCodes.OK).json(conversation);
     }catch(error){
-     console.Error("Error in getting conversion for side bar",error.message);
+    console.error("Error in getting conversion for side bar",error.message);
       res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({message:"Internal server error"}) 
     }
     
@@ -56,7 +56,7 @@ async function getSingleUserMessage(req,res){
   
 
     }catch(error){
-  console.Error("Error in getting conversion for side bar",error.message);
+    console.error("Error in getting conversion for side bar",error.message);
       res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({message:"Internal server error"}) 
     }
    
@@ -71,9 +71,11 @@ async function sendMessage(req,res){
     let videoUrl;
 
     if(req.file){
-      if( !hasImageKitConfig){ 
-         res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({message:"Media upload is not configured"})
-      }
+            if (!hasImageKitConfig) {
+                return res
+                    .status(StatusCodes.INTERNAL_SERVER_ERROR)
+                    .json({message: "Media upload is not configured"});
+            }
       const url = await uploadChatMedia(req.file)
       if(req.file.mimetype.startsWith("video/")) videoUrl=url
       else imageUrl = url;
@@ -94,7 +96,7 @@ async function sendMessage(req,res){
     } 
     res.status(StatusCodes.CREATED).json({newMessage})
    }catch(error){
-      console.Error("Error in getting conversion for side bar",error.message);
+    console.error("Error in sending message",error.message);
       res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({message:"Internal server error"}) 
    }
     
