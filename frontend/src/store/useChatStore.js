@@ -81,9 +81,9 @@ export const useChatStore = create(persist(
         if(!socket) return;
         socket.off("newMessage");
         socket.on("newMessage",(newMessage)=>{
-            if(String(newMessage.senderId !== String(userId))) return;
+            if(String(newMessage.senderId) !== String(userId)) return;
             set({messages: [...get().messages,newMessage]});
-            get().getConversion();
+            get().getConversations();
         })
     },
     unsubscribeFromMessage:()=>{
