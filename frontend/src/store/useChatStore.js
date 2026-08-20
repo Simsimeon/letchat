@@ -69,7 +69,7 @@ export const useChatStore = create(persist(
             const newMessage = res.data.newMessage ?? res.data;
             set({messages: [...messages, newMessage], composerText:""});
             get().getConversations();
-            return;
+            return true;
 
         }catch(error){
               toast.error(error.response?.data?.message || "Failed to send message")
